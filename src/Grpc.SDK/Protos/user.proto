@@ -1,0 +1,89 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+
+option csharp_namespace = "GrpcServer";
+
+package poroto;
+
+service Users {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse){};
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse){};
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse){};
+  rpc GetUserByNationalCode (GetUserByNationalCodeRequest) returns (GetUserByNationalCodeResponse){};
+  rpc GetUserCollection (GetUserCollectionRequest) returns (GetUserCollectionResponse){};
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string surname = 2;
+  string national_code = 3;
+  google.protobuf.StringValue birth_day = 4;
+}
+
+message UserFailureResponse {
+	string message = 1;
+}
+
+message UserSuccessfullyResponse{
+	string name = 1;
+	string surname = 2;
+	string national_code = 3;
+	google.protobuf.StringValue birth_day = 4;
+}
+
+message CreateUserResponse {
+	CreateUserSuccessfullyResponse successfully_response = 1;
+	UserFailureResponse failure_response = 2;
+}
+
+message UpdateUserResponse {
+	UpdateUserSuccessfullyResponse successfully_response = 1;
+	UserFailureResponse failure_response = 2;
+}
+
+message DeleteUserResponse {
+	DeleteUserSuccessfullyResponse successfully_response = 1;
+	UserFailureResponse failure_response = 2;
+}
+
+message GetUserByNationalCodeResponse {
+	UserSuccessfullyResponse successfully_response = 1;
+	UserFailureResponse failure_response = 2;
+}
+
+message GetUserCollectionResponse{
+	repeated UserSuccessfullyResponse successfully_response = 1;
+	UserFailureResponse failure_response = 2;
+	int32 page_index = 3;
+	int32 page_size = 4;
+	int64 total_count = 5;
+}
+
+message CreateUserSuccessfullyResponse {
+  string national_code = 1;
+}
+
+message UpdateUserRequest{
+	 string name = 1;
+	 string surname = 2;
+	 string national_code = 3;
+	 google.protobuf.StringValue birth_day = 4;
+}
+
+message UpdateUserSuccessfullyResponse {};
+
+message DeleteUserRequest{
+	string national_code = 1;
+}
+
+message DeleteUserSuccessfullyResponse {};
+
+message GetUserByNationalCodeRequest{
+	string national_code = 1;
+}
+
+message GetUserCollectionRequest{
+	google.protobuf.Int32Value page_index = 1;
+	google.protobuf.Int32Value page_size = 2;
+}
